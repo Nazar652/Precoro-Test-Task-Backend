@@ -2,3 +2,4 @@
 .idea
 
 /shop/api/migrations
+/shop/shop/__pycache__
