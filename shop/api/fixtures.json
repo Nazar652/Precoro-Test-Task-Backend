@@ -1,0 +1,68 @@
+[
+  {
+    "model": "api.Category",
+    "pk": 1,
+    "fields": {
+      "name": "Category 1",
+      "description": "This is category 1"
+    }
+  },
+  {
+    "model": "api.Category",
+    "pk": 2,
+    "fields": {
+      "name": "Category 2",
+      "description": "This is category 2"
+    }
+  },
+  {
+    "model": "api.Product",
+    "pk": 1,
+    "fields": {
+      "name": "Product 1",
+      "description": "This is product 1",
+      "price": 100,
+      "category_id": 1
+    }
+  },
+  {
+    "model": "api.Product",
+    "pk": 2,
+    "fields": {
+      "name": "Product 2",
+      "description": "This is product 2",
+      "price": 200,
+      "category_id": 1
+    }
+  },
+  {
+    "model": "api.Product",
+    "pk": 3,
+    "fields": {
+      "name": "Product 3",
+      "description": "This is product 3",
+      "price": 300,
+      "category_id": 2
+    }
+  },
+  {
+    "model": "api.Product",
+    "pk": 4,
+    "fields": {
+      "name": "Product 4",
+      "description": "This is product 4",
+      "price": 400,
+      "category_id": 2
+    }
+  },
+  {
+    "model": "api.Product",
+    "pk": 5,
+    "fields": {
+      "name": "Product 5",
+      "description": "This is product 5",
+      "price": 500,
+      "category_id": 2
+    }
+  }
+]

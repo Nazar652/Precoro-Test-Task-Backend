@@ -3,3 +3,4 @@
 
 /shop/api/migrations
 /shop/shop/__pycache__
+/shop/db.sqlite3
