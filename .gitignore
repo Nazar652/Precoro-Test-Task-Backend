@@ -2,5 +2,6 @@
 .idea
 
 /shop/api/migrations
+/shop/api/__pycache__
 /shop/shop/__pycache__
 /shop/db.sqlite3
