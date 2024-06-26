@@ -14,7 +14,7 @@ schema_view = get_schema_view(
     ),
     patterns=[path('api/', include('api.urls')), path('auth/', include('authentication.urls'))],
     public=True,
-    permission_classes=[permissions.IsAdminUser, ],
+    permission_classes=[permissions.IsAuthenticatedOrReadOnly, ],
 )
 
 urlpatterns = [

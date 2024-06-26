@@ -14,4 +14,6 @@ After cloning the project you need to run next commands:
     python manage.py loaddata api/fixtures.json
     python manage.py runserver
 
-The server will start at http://localhost:8000/. 
+The server will start at http://localhost:8000/
+
+To see the list of endpoint you can go to http://localhost:8000/docs/swagger-ui/
