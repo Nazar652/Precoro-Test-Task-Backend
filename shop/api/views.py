@@ -1,8 +1,10 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.filters import OrderingFilter
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 
+from .filters import ProductFilter
 from .serializers import *
 
 from rest_framework import viewsets, status
@@ -12,22 +14,21 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = '__all__'
 
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = '__all__'
 
 
 class ProductViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
-    filter_backends = [DjangoFilterBackend]
-    filterset_fields = '__all__'
+    permission_classes = [AllowAny]
+    filter_backends = [DjangoFilterBackend, OrderingFilter]
+    filterset_class = ProductFilter
+    ordering_fields = ['id', 'price']
+    ordering = ['id']
 
 
 class CartUserProductViewSet(viewsets.ModelViewSet):
@@ -35,7 +36,7 @@ class CartUserProductViewSet(viewsets.ModelViewSet):
     queryset = CartUserProduct.objects.all()
     serializer_class = CartUserProductSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = '__all__'
+    filterset_fields = ['user']
 
     def get_queryset(self):
         if self.request.user.is_staff:
@@ -48,7 +49,7 @@ class OrderViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = '__all__'
+    filterset_fields = ['user']
 
     def get_queryset(self):
         if self.request.user.is_staff:
@@ -78,3 +79,42 @@ def make_order(request):
         item.delete()
     serializer = OrderSerializer(order)
     return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+class WishlistViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = Wishlist.objects.all()
+    serializer_class = WishlistSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['product_id']
+
+    def get_queryset(self):
+        return Wishlist.objects.filter(user_id=self.request.user)
+
+
+class CommentViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['product_id']
+
+    def destroy(self, request, *args, **kwargs):
+        comment = self.get_object()
+        if comment.user != request.user:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        return super().destroy(request, *args, **kwargs)
+
+
+class ReplyViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    queryset = Reply.objects.all()
+    serializer_class = ReplySerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['comment_id']
+
+    def destroy(self, request, *args, **kwargs):
+        reply = self.get_object()
+        if reply.user != request.user:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+        return super().destroy(request, *args, **kwargs)

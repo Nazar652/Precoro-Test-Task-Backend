@@ -3,66 +3,189 @@
     "model": "api.Category",
     "pk": 1,
     "fields": {
-      "name": "Category 1",
-      "description": "This is category 1"
+      "name": "Smartphones",
+      "description": "This is the category of smartphones"
     }
   },
   {
     "model": "api.Category",
     "pk": 2,
     "fields": {
-      "name": "Category 2",
-      "description": "This is category 2"
+      "name": "Fridges",
+      "description": "This is the category of fridges"
+    }
+  },
+  {
+    "model": "api.Category",
+    "pk": 3,
+    "fields": {
+      "name": "Balls",
+      "description": "This is the category of balls"
     }
   },
   {
     "model": "api.Product",
     "pk": 1,
     "fields": {
-      "name": "Product 1",
-      "description": "This is product 1",
-      "price": 100,
-      "category_id": 1
+      "name": "Мобільний телефон Samsung Galaxy A24 6/128GB Light Green (SM-A245FLGVSEK)",
+      "description": "Екран (6.5\", Super AMOLED, 2340x1080) / Mediatek Helio G99 (2 x 2.6 ГГц + 6 x 2.0 ГГц) / основна потрійна камера: 50 Мп + 5 Мп + 2 Мп, фронтальна камера: 13 Мп / RAM 6 ГБ / 128 ГБ вбудованої пам'яті + microSD (до 1 ТБ) / 3G / LTE / GPS / ГЛОНАСС / BDS / підтримка 2х SIM-карток (Nano-SIM) / Android 13 / 5000 мА*год",
+      "price": 7599,
+      "category_id": 1,
+      "image": "phone-1.webp"
     }
   },
   {
     "model": "api.Product",
     "pk": 2,
     "fields": {
-      "name": "Product 2",
-      "description": "This is product 2",
-      "price": 200,
-      "category_id": 1
+      "name": "Мобільний телефон Apple iPhone 15 Pro Max 256GB Black Titanium (MU773RX/A)",
+      "description": "Екран (6.7\", OLED (Super Retina XDR), 2796x1290) / Apple A17 Pro / основна потрійна камера: 48 Мп + 12 Мп + 12 Мп, фронтальна камера: 12 Мп / 256 ГБ вбудованої пам'яті / 3G / LTE / 5G / GPS / Nano-SIM / iOS 17",
+      "price": 52999,
+      "category_id": 1,
+      "image": "phone-2.webp"
     }
   },
   {
     "model": "api.Product",
     "pk": 3,
     "fields": {
-      "name": "Product 3",
-      "description": "This is product 3",
-      "price": 300,
-      "category_id": 2
+      "name": "Мобільний телефон Samsung Galaxy S24 Ultra 12/512GB Titanium Gray (SM-S928BZTHEUC)",
+      "description": "Екран (6.8\", Dynamic AMOLED 2X, 3120x1440) / Qualcomm Snapdragon 8 Gen 3 for Galaxy (3.4 ГГц + 3.15 ГГц + 2.96 ГГц + 2.27 ГГц) / основна квадрокамера: 200 Мп + 50 Мп + 12 Мп + 10 Мп, фронтальна 12 Мп / RAM 12 ГБ / 512 ГБ вбудованої пам'яті / 3G / LTE / 5G / GPS / підтримка 2х SIM-карток (Nano-SIM) / Android 14 / 5000 мА * год",
+      "price": 55799,
+      "category_id": 1,
+      "image": "phone-3.webp"
     }
   },
   {
     "model": "api.Product",
     "pk": 4,
     "fields": {
-      "name": "Product 4",
-      "description": "This is product 4",
-      "price": 400,
-      "category_id": 2
+      "name": "Мобільний телефон Motorola G54 Power 12/256GB eSim Midnight Blue (1002722)",
+      "description": "Екран (6.5\", IPS, 2400x1080) / MediaTek Dimensity 7020 (2.2 ГГц + 2.0 ГГц) / подвійна основна камера: 50 Мп + 8 Мп, фронтальна камера: 16 Мп / RAM 12 ГБ / 256 ГБ вбудованої памʼяті + microSD (до 1 ТБ) / 3G / LTE / 5G / GPS / Nano-SIM + eSIM / Android 13 / 6000 мА*год",
+      "price": 8888,
+      "category_id": 1,
+      "image": "phone-4.webp"
     }
   },
   {
     "model": "api.Product",
     "pk": 5,
     "fields": {
-      "name": "Product 5",
-      "description": "This is product 5",
-      "price": 500,
-      "category_id": 2
+      "name": "Мобільний телефон Samsung Galaxy S23 FE 8/256GB Mint (SM-S711BLGGSEK)",
+      "description": "Екран (6.4\", Dynamic AMOLED 2X, 2340x1080) / Samsung Exynos 2200 (1 x 2.8 ГГц + 3 x 2.52 ГГц + 4 x 1.82 ГГц) / потрійна основна камера: 50 Мп + 12 Мп + 8 Мп, фронтальна 10 Мп / RAM 8 ГБ / 256 ГБ вбудованої пам'яті / 3G / LTE / 5G / GPS / підтримка 2х SIM-карт (Nano-SIM) / Android 13 / 4500 мА*год",
+      "price": 24499,
+      "category_id": 1,
+      "image": "phone-5.webp"
+    }
+  },
+  {
+    "model": "api.Product",
+    "pk": 6,
+    "fields": {
+      "name": "Холодильник SAMSUNG RB33J3200SA/UA",
+      "description": "Загальний об'єм холодильника: 350 л",
+      "price": 22499,
+      "category_id": 2,
+      "image": "fridge-1.webp"
+    }
+  },
+  {
+    "model": "api.Product",
+    "pk": 7,
+    "fields": {
+      "name": "Двокамерний холодильник Whirlpool W7X 82O OX H",
+      "description": "Загальний об'єм холодильника: 378 л",
+      "price": 19999,
+      "category_id": 2,
+      "image": "fridge-2.webp"
+    }
+  },
+  {
+    "model": "api.Product",
+    "pk": 8,
+    "fields": {
+      "name": "Двокамерний холодильник BOSCH KGN39UL316",
+      "description": "Загальний об'єм холодильника: 366 л",
+      "price": 23999,
+      "category_id": 2,
+      "image": "fridge-3.webp"
+    }
+  },
+  {
+    "model": "api.Product",
+    "pk": 9,
+    "fields": {
+      "name": "Двокамерний холодильник LG GW-B509SLKM",
+      "description": "Загальний об'єм холодильника: 384 л",
+      "price": 24999,
+      "category_id": 2,
+      "image": "fridge-4.webp"
+    }
+  },
+  {
+    "model": "api.Product",
+    "pk": 10,
+    "fields": {
+      "name": "Двокамерний холодильник BEKO RCNA305K20MG",
+      "description": "Загальний об'єм холодильника: 325 л",
+      "price": 15555,
+      "category_id": 2,
+      "image": "fridge-5.webp"
+    }
+  },
+  {
+    "model": "api.Product",
+    "pk": 11,
+    "fields": {
+      "name": "М'яч тренувальний Puma ATTACANTO Graphic (4099683455753)",
+      "description": "Футбольний м'яч Puma ATTACANTO Graphic",
+      "price": 499,
+      "category_id": 3,
+      "image": "ball-1.webp"
+    }
+  },
+  {
+    "model": "api.Product",
+    "pk": 12,
+    "fields": {
+      "name": "М'яч тренувальний Puma Orbita 6 MS (4065449744355)",
+      "description": "Футбольний м'яч Puma Orbita 6 MS",
+      "price": 664,
+      "category_id": 3,
+      "image": "ball-2.webp"
+    }
+  },
+  {
+    "model": "api.Product",
+    "pk": 13,
+    "fields": {
+      "name": "М'яч футбольний Puma Orbita 5 HYB Football Size 4 (4065449745178)",
+      "description": "Футбольний м'яч Puma Orbita 5 HYB Football Size 4",
+      "price": 1190,
+      "category_id": 3,
+      "image": "ball-3.webp"
+    }
+  },
+  {
+    "model": "api.Product",
+    "pk": 14,
+    "fields": {
+      "name": "М'яч баскетбольний Wilson NBA ALL TEAM Outdoor Size 7 (WTB1301XBNBA)",
+      "description": "Баскетбольний м'яч Wilson NBA ALL TEAM Outdoor Size 7",
+      "price": 799,
+      "category_id": 3,
+      "image": "ball-4.webp"
+    }
+  },
+  {
+    "model": "api.Product",
+    "pk": 15,
+    "fields": {
+      "name": "М'яч футбольний Select Fusion 962 Біло-синій №5 (5703543312962)",
+      "description": "Футбольний м'яч Select Fusion 962 Біло-синій №5",
+      "price": 1189,
+      "category_id": 3,
+      "image": "ball-5.webp"
     }
   }
 ]

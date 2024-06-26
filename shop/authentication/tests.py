@@ -26,7 +26,6 @@ class AuthenticationTests(APITestCase):
         self.assertEqual(response.json()['error'], 'Invalid credentials')
 
     def test_logout(self):
-        # First login the user
         self.client.login(username='testuser', password='testpass')
 
         url = reverse('logout_view')
@@ -35,7 +34,6 @@ class AuthenticationTests(APITestCase):
         self.assertEqual(response.json()['message'], 'Logout successful')
 
     def test_check_authentication_authenticated(self):
-        # First login the user
         self.client.login(username='testuser', password='testpass')
 
         url = reverse('check')
@@ -50,3 +48,9 @@ class AuthenticationTests(APITestCase):
         response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertFalse(response.json()['isAuthenticated'])
+
+    def test_get_csrf_token(self):
+        url = reverse('csrf')
+        response = self.client.get(url, format='json')
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.json()['details'], 'CSRF cookie set')

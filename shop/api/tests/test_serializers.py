@@ -1,8 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from ..serializers import (UserSerializer, CategorySerializer, ProductSerializer, CartUserProductSerializer,
-                           OrderSerializer, OrderProductSerializer)
-from ..models import Category, Product, CartUserProduct, Order, OrderProduct
+                           OrderSerializer, OrderProductSerializer, WishlistSerializer, CommentSerializer,
+                           ReplySerializer)
+from ..models import Category, Product, CartUserProduct, Order, OrderProduct, Wishlist, Comment, Reply
 from rest_framework.request import Request
 from rest_framework.test import APIRequestFactory, force_authenticate
 
@@ -121,7 +122,7 @@ class ProductSerializerTest(TestCase):
 
     def test_contains_expected_fields(self):
         data = self.serializer.data
-        self.assertEqual(set(data.keys()), {'id', 'name', 'description', 'price', 'category'})
+        self.assertEqual(set(data.keys()), {'id', 'name', 'description', 'price', 'category', 'image'})
 
     def test_name_field_content(self):
         data = self.serializer.data
@@ -144,7 +145,8 @@ class ProductSerializerTest(TestCase):
             'name': '',
             'description': 'This is a test product description',
             'price': 100,
-            'category': self.category.id
+            'category': self.category.id,
+            'image': None
         }
         serializer = ProductSerializer(data=invalid_data)
         self.assertFalse(serializer.is_valid())
@@ -155,7 +157,8 @@ class ProductSerializerTest(TestCase):
             'name': 'Test Product',
             'description': 'This is a test product description',
             'price': None,
-            'category': self.category.id
+            'category': self.category.id,
+            'image': None
         }
         serializer = ProductSerializer(data=invalid_data)
         self.assertFalse(serializer.is_valid())
@@ -166,7 +169,8 @@ class ProductSerializerTest(TestCase):
             'name': 'New Product',
             'description': 'This is a new product description',
             'price': 150,
-            'category': self.category.id
+            'category': self.category.id,
+            'image': None
         }
         serializer = ProductSerializer(data=valid_data)
         self.assertTrue(serializer.is_valid())
@@ -175,6 +179,7 @@ class ProductSerializerTest(TestCase):
         self.assertEqual(product.description, valid_data['description'])
         self.assertEqual(product.price, valid_data['price'])
         self.assertEqual(product.category.id, valid_data['category'])
+        self.assertEqual(product.image, valid_data['image'])
 
 
 class CartUserProductSerializerTest(TestCase):
@@ -198,7 +203,7 @@ class CartUserProductSerializerTest(TestCase):
 
     def test_contains_expected_fields(self):
         data = self.serializer.data
-        self.assertEqual(set(data.keys()), {'id', 'product_id', 'quantity'})
+        self.assertEqual(set(data.keys()), {'id', 'product_id', 'quantity', 'product'})
 
     def test_product_id_field_content(self):
         data = self.serializer.data
@@ -287,15 +292,11 @@ class OrderProductSerializerTest(TestCase):
 
     def test_contains_expected_fields(self):
         data = self.serializer.data
-        self.assertEqual(set(data.keys()), {'id', 'order', 'product', 'quantity', 'price'})
-
-    def test_order_field_content(self):
-        data = self.serializer.data
-        self.assertEqual(data['order'], self.order.id)
+        self.assertEqual(set(data.keys()), {'id', 'product', 'quantity', 'price'})
 
     def test_product_field_content(self):
         data = self.serializer.data
-        self.assertEqual(data['product'], self.product.id)
+        self.assertEqual(data['product']['id'], self.product.id)
 
     def test_quantity_field_content(self):
         data = self.serializer.data
@@ -316,17 +317,79 @@ class OrderProductSerializerTest(TestCase):
         self.assertFalse(serializer.is_valid())
         self.assertEqual(set(serializer.errors.keys()), {'quantity'})
 
-    def test_create_order_product(self):
-        valid_data = {
-            'order': self.order.id,
-            'product': self.product.id,
-            'quantity': 3,
-            'price': 100
+
+class WishlistSerializerTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        self.category = Category.objects.create(name='Test Category')
+        self.product = Product.objects.create(name='Test Product', price=100, category=self.category)
+        self.wishlist_attributes = {
+            'user': self.user,
+            'product': self.product
         }
-        serializer = OrderProductSerializer(data=valid_data)
-        self.assertTrue(serializer.is_valid())
-        order_product = serializer.save()
-        self.assertEqual(order_product.order.id, valid_data['order'])
-        self.assertEqual(order_product.product.id, valid_data['product'])
-        self.assertEqual(order_product.quantity, valid_data['quantity'])
-        self.assertEqual(order_product.price, valid_data['price'])
+        self.wishlist_data = {
+            'product_id': self.product.id
+        }
+        self.wishlist = Wishlist.objects.create(**self.wishlist_attributes)
+        self.serializer = WishlistSerializer(instance=self.wishlist)
+
+    def test_contains_expected_fields(self):
+        data = self.serializer.data
+        self.assertEqual(set(data.keys()), {'id', 'product_id', 'product'})
+
+    def test_product_field_content(self):
+        data = self.serializer.data
+        self.assertEqual(data['product']['id'], self.product.id)
+
+
+class CommentSerializerTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        self.category = Category.objects.create(name='Test Category')
+        self.product = Product.objects.create(name='Test Product', price=100, category=self.category)
+        self.comment_attributes = {
+            'user': self.user,
+            'product': self.product,
+            'text': 'This is a test comment'
+        }
+        self.comment = Comment.objects.create(**self.comment_attributes)
+        self.serializer = CommentSerializer(instance=self.comment)
+
+    def test_contains_expected_fields(self):
+        data = self.serializer.data
+        self.assertEqual(set(data.keys()), {'id', 'user', 'product_id', 'text', 'created_at'})
+
+    def test_user_field_content(self):
+        data = self.serializer.data
+        self.assertEqual(data['user']['id'], self.user.id)
+
+    def test_text_field_content(self):
+        data = self.serializer.data
+        self.assertEqual(data['text'], self.comment_attributes['text'])
+
+
+class ReplySerializerTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', password='testpassword')
+        self.category = Category.objects.create(name='Test Category')
+        self.product = Product.objects.create(name='Test Product', price=100, category=self.category)
+        self.comment = Comment.objects.create(user=self.user, product=self.product, text='This is a test comment')
+        self.reply_attributes = {
+            'user': self.user,
+            'comment': self.comment,
+            'text': 'This is a test reply'
+        }
+        self.reply = Reply.objects.create(**self.reply_attributes)
+        self.serializer = ReplySerializer(instance=self.reply)
+
+    def test_contains_expected_fields(self):
+        data = self.serializer.data
+        self.assertEqual(set(data.keys()), {'id', 'user', 'comment_id', 'text', 'created_at'})
+
+    def test_user_field_content(self):
+        data = self.serializer.data
+        self.assertEqual(data['user']['id'], self.user.id)
+
+    def test_text_field_content(self):
+        data = self.serializer.data
+        self.assertEqual(data['text'], self.reply_attributes['text'])

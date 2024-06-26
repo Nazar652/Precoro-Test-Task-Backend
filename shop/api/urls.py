@@ -10,6 +10,9 @@ router.register(r'categories', CategoryViewSet)
 router.register(r'products', ProductViewSet)
 router.register(r'cart', CartUserProductViewSet)
 router.register(r'orders', OrderViewSet)
+router.register(r'wishlist', WishlistViewSet)
+router.register(r'comments', CommentViewSet)
+router.register(r'replies', ReplyViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
